@@ -32,7 +32,7 @@ public class Wave : MonoBehaviour
 
     float old;
 
-    private float amplitude = 0.5f;
+    private float amplitude = 0.6f;
     public float frequency = 2.0f;
     public int frqc = 0;
 
@@ -63,14 +63,8 @@ public class Wave : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
         if (Time.time - old > 0.01f)
         {
-            if (lastFrq != frequency)
-            {
-                offset = lastPies - Mathf.PI * Time.fixedTime * frequency;
-            }
-
             float sinPos = 0;
 
             dial.GoalIndex = frqc;
@@ -80,33 +74,49 @@ public class Wave : MonoBehaviour
                 case 0:
                     sinPos = 0;
                     frequency = 0;
+                    offset = 0;
                     break;
                 case 1:
-                    sinPos = Mathf.Sin(Mathf.PI * Time.fixedTime * ir + offset);
+                    // offset has to be calculated when frequency is known
                     frequency = ir;
+                    if (lastFrq != frequency)
+                    {
+                        offset = lastPies - Mathf.PI * Time.fixedTime * frequency;
+                    }
+                    sinPos = Mathf.Sin(Mathf.PI * Time.fixedTime * frequency + offset);
                     break;
                 case 2:
-                    sinPos = Mathf.Sin(Mathf.PI * Time.fixedTime * v + offset);
+                    // offset has to be calculated when frequency is known
                     frequency = v;
+                    if (lastFrq != frequency)
+                    {
+                        offset = lastPies - Mathf.PI * Time.fixedTime * frequency;
+                    }
+                    sinPos = Mathf.Sin(Mathf.PI * Time.fixedTime * frequency + offset);
                     break;
                 case 3:
-                    sinPos = Mathf.Sin(Mathf.PI * Time.fixedTime * uv + offset);
+                    // offset has to be calculated when frequency is known
                     frequency = uv;
+                    if (lastFrq != frequency)
+                    {
+                        offset = lastPies - Mathf.PI * Time.fixedTime * frequency;
+                    }
+                    sinPos = Mathf.Sin(Mathf.PI * Time.fixedTime * frequency + offset);
                     break;
                 case 4:
-                    sinPos = Mathf.Sin(Mathf.PI * Time.fixedTime * ir + offset) + Mathf.Sin(Mathf.PI * Time.fixedTime * v + offset);
                     frequency = ir + v;
+                    sinPos = (Mathf.Sin(Mathf.PI * Time.fixedTime * ir) + Mathf.Sin(Mathf.PI * Time.fixedTime * v)) * 0.7f;
                     break;
                 case 5:
-                    sinPos = Mathf.Sin(Mathf.PI * Time.fixedTime * ir + offset) + Mathf.Sin(Mathf.PI * Time.fixedTime * uv + offset);
                     frequency = ir + uv;
+                    sinPos = (Mathf.Sin(Mathf.PI * Time.fixedTime * ir) + Mathf.Sin(Mathf.PI * Time.fixedTime * uv)) * 0.7f;
                     break;
                 case 6:
-                    sinPos = Mathf.Sin(Mathf.PI * Time.fixedTime * v + offset) + Mathf.Sin(Mathf.PI * Time.fixedTime * uv + offset);
                     frequency = v + uv;
+                    sinPos = (Mathf.Sin(Mathf.PI * Time.fixedTime * v) + Mathf.Sin(Mathf.PI * Time.fixedTime * uv)) * 0.7f;
                     break;
                 case 7:
-                    sinPos = (Mathf.Sin(Mathf.PI * Time.fixedTime * ir + offset) + Mathf.Sin(Mathf.PI * Time.fixedTime * v + offset) + Mathf.Sin(Mathf.PI * Time.fixedTime * uv + offset)) * 0.6f;
+                    sinPos = (Mathf.Sin(Mathf.PI * Time.fixedTime * ir) + Mathf.Sin(Mathf.PI * Time.fixedTime * v) + Mathf.Sin(Mathf.PI * Time.fixedTime * uv)) * 0.6f;
                     frequency = ir + v +uv;
                     break;
             }
