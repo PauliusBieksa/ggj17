@@ -65,31 +65,56 @@ public class Beacon : MonoBehaviour
             // Logic for adding or removing upgrades
             if (Input.GetKeyDown("1"))
             {
-                if (upgrade != 1 && playerInventory.FocusPickup > 0)
+                if (upgrade != 1)
+                {
+                    if(playerInventory.FocusPickup > 0)
+                    {
+                        upgrade = 1;
+                        playerInventory.SubFocusPickup();
+                        beaconChange();
+                    }
+                }
+                else
                 {
                     returnUpgrade();
-                    upgrade = 1;
-                    playerInventory.SubFocusPickup();
+                    upgrade = 0;
                     beaconChange();
                 }
             }
-            if (Input.GetKeyDown("2") && playerInventory.BoostPickup > 0)
+            if (Input.GetKeyDown("2"))
             {
                 if (upgrade != 2)
                 {
+                    if(playerInventory.BoostPickup > 0)
+                    {
+                        upgrade = 2;
+                        playerInventory.SubBoostPickup();
+                        beaconChange();
+                    }
+                }
+                else
+                {
                     returnUpgrade();
-                    upgrade = 2;
-                    playerInventory.SubBoostPickup();
+                    upgrade = 0;
                     beaconChange();
                 }
             }
-            if (Input.GetKeyDown("3") && playerInventory.ProjectPickup > 0)
+            if (Input.GetKeyDown("3"))
             {
                 if (upgrade != 3)
                 {
+                    if(playerInventory.ProjectPickup > 0)
+                    {
+                        returnUpgrade();
+                        upgrade = 3;
+                        playerInventory.SubProjectPickup();
+                        beaconChange();
+                    }
+                }
+                else
+                {
                     returnUpgrade();
-                    upgrade = 3;
-                    playerInventory.SubProjectPickup();
+                    upgrade = 0;
                     beaconChange();
                 }
             }
