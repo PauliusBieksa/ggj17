@@ -17,6 +17,10 @@ public class Beacon : MonoBehaviour
     //0 - up, 1 - right, 2 - down, 3 - left
     [SerializeField]
     private int rot = 0;
+    
+    //the list of grids currently affected by this beacon
+    [SerializeField]
+    List<AudioClip> FrequencyAudios = new List<AudioClip>();
 
     private int x;
     private int y;
@@ -42,9 +46,12 @@ public class Beacon : MonoBehaviour
     private bool playerOn = false;
     Inventory playerInventory;
 
+    private AudioSource audioSource;
+
     // Use this for initialization
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         sprite = GetComponent<SpriteRenderer>();
         parentG = GetComponentInParent<grid>();
         emissionType = startEmissionType;
@@ -161,6 +168,7 @@ public class Beacon : MonoBehaviour
         emitted();
         rotateEmission();
         changeSpriteColour();
+        PlaySound();
         emitting();
     }
 
@@ -182,6 +190,32 @@ public class Beacon : MonoBehaviour
                 emissionType = "IR";
                 break;
 
+            default:
+                break;
+        }
+    }
+    
+    /// <summary>
+    /// Play correct sound
+    /// </summary>
+    private void PlaySound()
+    {
+        switch (emissionType)
+        {
+            case ("IR"):
+                audioSource.clip = FrequencyAudios[0];
+                audioSource.Play();
+                break;
+
+            case ("V"):
+                audioSource.clip = FrequencyAudios[1];
+                audioSource.Play();
+                break;
+
+            case ("UV"):
+                audioSource.clip = FrequencyAudios[2];
+                audioSource.Play();
+                break;
             default:
                 break;
         }
